@@ -1,0 +1,12 @@
+{
+  "name": "reactnative-android-widget",
+  "displayName": "reactnative-android-widget",
+  "expo": {
+    "name": "reactnative-android-widget",
+    "slug": "reactnative-android-widget",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
