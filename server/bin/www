@@ -21,6 +21,20 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
+/*
+* Start socket.io server and establish 2-way communication
+*/
+
+var io = require("socket.io")(server);
+
+io.on("connection", socket => {
+  console.log("a user connected :D");
+  socket.on("chat message", msg => {
+    console.log(msg);
+    io.emit("chat message", msg);
+  });
+});
+
 /**
  * Listen on provided port, on all network interfaces.
  */
