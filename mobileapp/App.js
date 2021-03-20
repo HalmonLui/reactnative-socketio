@@ -1,41 +1,58 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
+import io from "socket.io-client";
 import { StyleSheet, Text, View, TextInput, NativeModules, TouchableOpacity } from 'react-native';
 
 const SharedStorage = NativeModules.SharedStorage;
+// Need to test with ngrok with mobile phone
+const socket = io("http://3cb48dddf803.ngrok.io")
 
 export default function App() {
   const [text, onChangeText] = React.useState("");
-  const sendText = () => {
-    console.log('SENDING TEXT')
-    console.log('text', {text})
-    SharedStorage.set(
-     JSON.stringify({text})
-    );
+  const [chatMessage, setChatMessage] = React.useState('testttt')
+  const [chatMessages, onChangeChatMessages] = React.useState([])
+  const [connectedSocket, onSocketConnect] = React.useState(false)
+
+  // Same as componentDidMount()
+  useEffect(() => {
+    if (!connectedSocket) {
+      console.log('joining room')
+      socket.on("chat message", msg => {
+        onChangeChatMessages(chatMessages.concat(msg))
+      })
+      onSocketConnect(true)
+    } else {
+      console.log('already joined room')
+    }
+  });
+
+  const chatMessagesElement = chatMessages.map(chatMessage => (
+      <Text key={chatMessage} style={{borderWidth: 2}}>{chatMessage}</Text>
+  ));
+
+  const submitChatMessage = () => {
+    socket.emit('chat message', chatMessage)
+    console.log('emitted socket thing')
+    setChatMessage('')
   }
+
   return (
     <View style={styles.container}>
-      <Text style={{padding: 40, fontSize: 20}}>React Native Widget Trial</Text>
-      <View style={styles.inputContainer}>
-        <Text style={{padding: 20}}>Widget Text:</Text>
+
+
+      <View>
+        {chatMessagesElement}
         <TextInput
-          style={{
-          height: 40,
-          width: 150,
-          borderColor: 'gray',
-          borderWidth: 1
+          style={{width: 200, height: 40, borderWidth: 2}}
+          autoCorrect={false}
+          value={chatMessage}
+          placeholder='send a msg plz'
+          onSubmitEditing={submitChatMessage}
+          onChangeText={msg => {
+            setChatMessage(msg);
           }}
-          onChangeText={onChangeText}
-          value={text}
-          placeholder="text to show on widget"
-          ></TextInput>
+        />
       </View>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={sendText}
-        >
-        <Text>Send</Text>
-      </TouchableOpacity>
       <StatusBar style="auto" />
     </View>
   );
