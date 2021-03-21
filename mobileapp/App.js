@@ -5,35 +5,43 @@ import { StyleSheet, Text, View, TextInput, NativeModules, TouchableOpacity } fr
 
 const SharedStorage = NativeModules.SharedStorage;
 // Need to test with ngrok with mobile phone
-const socket = io("http://3cb48dddf803.ngrok.io")
+const socketURL = 'http://d1d6093f3136.ngrok.io'
+const socket = io(socketURL)
 
 export default function App() {
   const [text, onChangeText] = React.useState("");
   const [chatMessage, setChatMessage] = React.useState('testttt')
   const [chatMessages, onChangeChatMessages] = React.useState([])
-  const [connectedSocket, onSocketConnect] = React.useState(false)
+
 
   // Same as componentDidMount()
   useEffect(() => {
-    if (!connectedSocket) {
-      console.log('joining room')
-      socket.on("chat message", msg => {
-        onChangeChatMessages(chatMessages.concat(msg))
-      })
-      onSocketConnect(true)
-    } else {
-      console.log('already joined room')
-    }
-  });
+    console.log('joining room')
+    socket.on("chat message", msg => {
+      console.log('use effect socket on testt', msg)
+      console.log('the messages before', chatMessages)
+      updateChatMessages(msg)
+      console.log('the messages after', chatMessages)
+    })
+
+    // Clean up effect
+    return () => socket.disconnect();
+  }, []);
+
+  const updateChatMessages = (msg) => {
+    onChangeChatMessages(chatMessages => ([...chatMessages, msg]))
+    console.log('the chat message', chatMessage)
+  }
 
   const chatMessagesElement = chatMessages.map(chatMessage => (
-      <Text key={chatMessage} style={{borderWidth: 2}}>{chatMessage}</Text>
+      <Text key={chatMessage} style={{borderWidth: 2, height: 20, top: 5}}>{chatMessage}</Text>
   ));
 
   const submitChatMessage = () => {
     socket.emit('chat message', chatMessage)
     console.log('emitted socket thing')
     setChatMessage('')
+    console.log('messages', chatMessages)
   }
 
   return (
