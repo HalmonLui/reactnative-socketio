@@ -14,5 +14,6 @@ Requires Android Studio, React Native, Android SDK, Socket.io-client
 2. npx react-native run-android
 
 ## Screenshots
-<img src="https://github.com/HalmonLui/reactnative-android-widget/blob/main/readme/app_screenshot.jpg" alt="Demo Application" width="200px"/>
-<img src="https://github.com/HalmonLui/reactnative-android-widget/blob/main/readme/widget_screenshot.jpg" alt="Demo Widget" width="200px"/>
+<img src="https://github.com/HalmonLui/reactnative-socketio/blob/main/readme/app_screenshot_released.jpg" alt="Released button" width="200px"/>
+<img src="https://github.com/HalmonLui/reactnative-socketio/blob/main/readme/app_screenshot_pressed.jpg" alt="Pressed button" width="200px"/>
+<img src="https://github.com/HalmonLui/reactnative-socketio/blob/main/readme/node_server.PNG" alt="Node.js server logs" width="200px"/>
