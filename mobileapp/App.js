@@ -10,9 +10,9 @@ const socket = io(socketURL)
 
 export default function App() {
   const [text, onChangeText] = React.useState("");
-  const [chatMessage, setChatMessage] = React.useState('testttt')
+  const [chatMessage, setChatMessage] = React.useState('')
   const [chatMessages, onChangeChatMessages] = React.useState([])
-  const [buttonPressed, onIsButtonPressed] = React.useState('123abc')
+  const [buttonPressed, onIsButtonPressed] = React.useState('')
 
 
   // Same as componentDidMount()
@@ -24,23 +24,23 @@ export default function App() {
     })
     socket.on("button press", pressed => {
       console.log('button has been pressed')
-      onIsButtonPressed('lalala')
+      onIsButtonPressed('True')
     })
     socket.on("button release", released => {
       console.log('button has been released')
-      onIsButtonPressed('hihihi')
+      onIsButtonPressed('False')
     })
     // Clean up effect
     return () => socket.disconnect();
   }, []);
 
   const chatMessagesElement = chatMessages.map(chatMessage => (
-      <Text key={chatMessage} style={{borderWidth: 2, height: 20, top: 5}}>{chatMessage}</Text>
+      <Text key={chatMessage} style={{height: 20}}>User: {chatMessage}</Text>
   ));
 
   const submitChatMessage = () => {
     socket.emit('chat message', chatMessage)
-    console.log('emitted socket thing')
+    console.log('emitted chat message')
     setChatMessage('')
     console.log('messages', chatMessages)
   }
@@ -66,7 +66,7 @@ export default function App() {
           style={{width: 200, height: 40, borderWidth: 2}}
           autoCorrect={false}
           value={chatMessage}
-          placeholder='send a msg plz'
+          placeholder='Type a message'
           onSubmitEditing={submitChatMessage}
           onChangeText={msg => {
             setChatMessage(msg);
