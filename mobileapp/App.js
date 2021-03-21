@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import io from "socket.io-client";
-import { StyleSheet, Text, View, TextInput, NativeModules, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, NativeModules, TouchableOpacity, Vibration } from 'react-native';
 
 const SharedStorage = NativeModules.SharedStorage;
 // Need to test with ngrok with mobile phone
-const socketURL = 'http://56c128b62deb.ngrok.io'
+const socketURL = 'http://4c40b92c5f95.ngrok.io'
 const socket = io(socketURL)
 
 export default function App() {
@@ -48,6 +48,7 @@ export default function App() {
   const pressButton = () => {
     socket.emit('button press', true)
     console.log('emitted button press')
+    Vibration.vibrate()
   }
 
   const releaseButton = () => {
@@ -75,6 +76,7 @@ export default function App() {
       <TouchableOpacity
         onPressIn={pressButton}
         onPressOut={releaseButton}
+        style={styles.button}
       >
         <Text>Button</Text>
       </TouchableOpacity>
