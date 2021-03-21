@@ -15,5 +15,10 @@ Requires Android Studio, React Native, Android SDK, Socket.io-client
 
 ## Screenshots
 <img src="https://github.com/HalmonLui/reactnative-socketio/blob/main/readme/app_screenshot_released.jpg" alt="Released button" width="200px"/>
+Demo app with messages sent
+
 <img src="https://github.com/HalmonLui/reactnative-socketio/blob/main/readme/app_screenshot_pressed.jpg" alt="Pressed button" width="200px"/>
+Demo app with button pressed
+
 <img src="https://github.com/HalmonLui/reactnative-socketio/blob/main/readme/node_server.PNG" alt="Node.js server logs" width="200px"/>
+Node.js server logs
