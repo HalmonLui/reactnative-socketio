@@ -29,10 +29,22 @@ var io = require("socket.io")(server);
 
 io.on("connection", socket => {
   console.log("a user connected :D");
+
   socket.on("chat message", msg => {
     console.log('Received message', msg);
     io.emit("chat message", msg);
   });
+
+  socket.on("button press", pressed => {
+    console.log('Button pressed');
+    io.emit("button press", pressed)
+  })
+
+  socket.on("button release", released => {
+    console.log('Button released');
+    io.emit('button release', released)
+  })
+
   socket.on("disconnect", () => {
     console.log("user disconnected!");
   })
